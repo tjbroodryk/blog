@@ -45,7 +45,6 @@ export const getAllPosts = async (): Promise<
   const fileNames = await readdir(POSTS_DIR)
   const posts = await Promise.all(
     fileNames.map(async (fileName) => {
-      const id = path.join(POSTS_DIR, fileName)
       return await getPost(fileName)
     }),
   )

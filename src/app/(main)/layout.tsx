@@ -1,11 +1,13 @@
 import Link from 'next/link'
 
-import { AboutSection } from '@/components/about-section'
 import { TinyWaveFormIcon } from '@/components/wave-icon'
+import { AboutSection } from '@/components/about-section'
+import { Search } from '@/components/search'
+import { getAllPosts } from '@/lib/posts'
 
 function GithubIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
-    <svg {...props} viewBox='0 0 98 96' xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#24292f" /></svg>
+    <svg {...props} viewBox='0 0 98 96' xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#24292f" /></svg>
   )
 }
 
@@ -26,11 +28,13 @@ const Links = [
   ['LinkedIn', LinkedinIcon, 'https://www.linkedin.com/in/tjbroodryk/'],
 ] as const
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const posts = await getAllPosts()
+
   return (
     <>
       <header className="bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-112 lg:items-start lg:overflow-y-auto xl:w-120">
@@ -46,10 +50,13 @@ export default function MainLayout({
               <Link href="/">Thoughts 'n stuff</Link>
             </p>
             <p className="hidden lg:inline-block mt-3 text-lg font-medium leading-8 text-slate-700">
-              A collection of thoughts, ideas, stories and recipes.
+              A space for me to write down stuff I don't want to forget.
+            </p>
+            <p className="hidden lg:inline-block mt-3 text-lg font-normal text-sm  text-slate-700">
+            Written using nextjs, with bunjs and tailwind deployed on github pages.
             </p>
           </div>
-          {/* <AboutSection className="mt-12 hidden lg:block" /> */}
+          <AboutSection className="mt-12 hidden lg:block" />
           <section className="hidden lg:block mt-10 lg:mt-12">
             <h2 className="sr-only flex items-center font-mono text-sm font-medium leading-7 text-slate-900 lg:not-sr-only">
               <TinyWaveFormIcon
@@ -95,11 +102,11 @@ export default function MainLayout({
         </div>
       </header>
       <main className="border-t border-slate-200 lg:relative lg:mb-28 lg:ml-112 lg:border-t-0 xl:ml-120">
+        <Search posts={posts.map(x => x.meta)}/>
         <div className="relative">{children}</div>
       </main>
       <footer className="border-t border-slate-200 bg-white py-10 pb-40 sm:py-16 sm:pb-32 lg:hidden">
         <div className="mx-auto px-4 sm:px-6 md:max-w-2xl md:px-4">
-          <AboutSection />
           <h2 className="mt-8 flex items-center font-mono text-sm font-medium leading-7 text-slate-900">
             <PersonIcon className="h-3 w-auto fill-slate-300" />
             <span className="ml-2.5">Random Write-ups by</span><span className="ml-2.5 text-slate-900 font-bold">Tj Broodryk</span>

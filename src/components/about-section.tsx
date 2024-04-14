@@ -6,7 +6,6 @@ import clsx from 'clsx'
 import { TinyWaveFormIcon } from '@/components/wave-icon'
 
 export function AboutSection(props: React.ComponentPropsWithoutRef<'section'>) {
-  let [isExpanded, setIsExpanded] = useState(false)
 
   return (
     <section {...props}>
@@ -20,24 +19,12 @@ export function AboutSection(props: React.ComponentPropsWithoutRef<'section'>) {
       <p
         className={clsx(
           'mt-2 text-base leading-7 text-slate-700',
-          !isExpanded && 'lg:line-clamp-4',
         )}
       >
-        In this show, Eric and Wes dig deep to get to the facts with guests who
-        have been labeled villains by a society quick to judge, without actually
-        getting the full story. Tune in every Thursday to get to the truth with
-        another misunderstood outcast as they share the missing context in their
-        tragic tale.
+       Some of these posts will be stories/thoughts I can look back on in future as an experiment to see how opinions/views can change.
+       Other posts might be recipes or just random thoughts.
+       Might help stop me getting all grumpy when im old, idk.
       </p>
-      {!isExpanded && (
-        <button
-          type="button"
-          className="mt-2 hidden text-sm font-bold leading-6 text-primary hover:text-primary-dark active:text-primary-dark lg:inline-block"
-          onClick={() => setIsExpanded(true)}
-        >
-          Show more
-        </button>
-      )}
     </section>
   )
 }

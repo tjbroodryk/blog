@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: {
     template: "%s - Thoughts 'n stuff",
     default:
-      "Thoughts 'n stuff - A collection of thoughts, ideas, stories and recipes.",
+      `Thoughts 'n stuff - A collection of thoughts, ideas, stories and recipes.`,
   },
   description:
     'A collection of thoughts, ideas, stories and recipes.',
